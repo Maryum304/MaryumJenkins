@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Inception (2010) - Movie Hub</title>
+  <style>
+    /* Base */
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background-color: #121212;
+      color: #eee;
+      margin: 0;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    a {
+      color: #e63946;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Header Layout with Flexbox */
+    header {
+      background: #1f1f1f;
+      box-shadow: 0 1px 8px rgb(230 57 70 / 0.5);
+      padding: 1.5rem 2.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #e63946;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links li {
+      display: inline;
+    }
+
+    .nav-links a {
+      color: #e63946;
+      font-weight: 600;
+      font-size: 1.05rem;
+      border-bottom: 2px solid transparent;
+      padding-bottom: 0.2rem;
+      transition: color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a[aria-current="page"] {
+      color: #f0625e;
+      border-bottom-color: #f0625e;
+    }
+
+    /* Main layout */
+    main {
+      max-width: 1000px;
+      margin: 3rem auto 4rem;
+      padding: 0 1rem;
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .poster {
+      flex-shrink: 0;
+      width: 320px;
+      border-radius: 16px;
+      box-shadow: 0 12px 25px rgb(230 57 70 / 0.7);
+      object-fit: cover;
+    }
+
+    .details {
+      flex: 1;
+      min-width: 280px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-weight: 800;
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+      color: #e63946;
+    }
+
+    .meta {
+      color: #bb262f;
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+    }
+
+    p.synopsis {
+      font-size: 1.1rem;
+      color: #ccc;
+      margin-bottom: 2rem;
+    }
+
+    button.btn-watchlist {
+      background-color: #e63946;
+      color: #121212;
+      border: none;
+      border-radius: 10px;
+      padding: 0.85rem 2.2rem;
+      font-weight: 700;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgb(230 57 70 / 0.7);
+      transition: background-color 0.3s ease;
+      align-self: flex-start;
+      margin-bottom: 2rem;
+    }
+
+    button.btn-watchlist:hover {
+      background-color: #bb262f;
+    }
+
+    .movie-info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(140px,1fr));
+      gap: 1rem 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .info-block {
+      background: #1f1f1f;
+      border-radius: 16px;
+      padding: 1rem 1.5rem;
+      box-shadow: 0 4px 10px rgb(230 57 70 / 0.6);
+      text-align: center;
+      color: #eee;
+    }
+
+    .info-block h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .info-block p {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .cast-list {
+      margin-bottom: 2rem;
+    }
+
+    .cast-list h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #e63946;
+      margin-bottom: 1rem;
+    }
+
+    .cast-members {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .cast-member {
+      background: #1f1f1f;
+      border-radius: 16px;
+      padding: 1rem 1.25rem;
+      box-shadow: 0 4px 12px rgb(230 57 70 / 0.6);
+      flex: 0 0 45%;
+      color: #ccc;
+    }
+
+    .cast-member h4 {
+      margin: 0 0 0.3rem;
+      font-weight: 700;
+      color: #f0625e;
+    }
+
+    .cast-member p {
+      margin: 0;
+      font-size: 1rem;
+      color: #bbb;
+    }
+
+    .trailer-section {
+      margin-bottom: 2rem;
+    }
+
+    .trailer-section h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #e63946;
+      margin-bottom: 1rem;
+    }
+
+    .trailer-container {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgb(230 57 70 / 0.7);
+    }
+
+    .trailer-container iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .reviews-section {
+      margin-top: 2rem;
+    }
+
+    .reviews-section h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #e63946;
+      margin-bottom: 1rem;
+    }
+
+    .review {
+      background: #1f1f1f;
+      border-radius: 16px;
+      padding: 1.25rem 1.75rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 12px rgb(230 57 70 / 0.6);
+      color: #ccc;
+    }
+
+    .review .reviewer {
+      font-weight: 700;
+      color: #f0625e;
+      margin-bottom: 0.25rem;
+    }
+
+    .review .rating {
+      color: #e63946;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    .review p {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    footer {
+      background: #1f1f1f;
+      text-align: center;
+      padding: 20px 0;
+      color: #cbd5e1;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 680px) {
+      main {
+        flex-direction: column;
+        align-items: center;
+      }
+      .poster {
+        width: 80vw;
+        max-width: 320px;
+        margin-bottom: 2rem;
+      }
+      .details {
+        width: 100%;
+      }
+      .cast-member {
+        flex: 0 0 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-content">
+    <div class="logo">Movie Hub</div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="movies.html">Movies</a></li>
+        <li><a href="watchlist.html">Watchlist</a></li>
+        <li><a href="profile.html">Profile</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="reviews.html" aria-current="page">Reviews</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+</style>
+</head>
+<body>
+
+<main>
+  <img src="https://cdn.shopify.com/s/files/1/1416/8662/products/inception_2010_imax_original_film_art_2000x.jpg?v=1551890318" alt="Inception Poster" class="poster" />
+  <div class="details">
+    <h1>Inception (2010)</h1>
+    <div class="meta">Action, Sci-Fi | Directed by Christopher Nolan | 2h 28m | Released: July 16, 2010</div>
+    <p class="synopsis">
+      Dom Cobb is a skilled thief, the absolute best in the dangerous art of extraction: stealing valuable secrets from deep within the subconscious during the dream state when the mind is at its most vulnerable. Cobb's rare ability has made him a coveted player in this treacherous new world of corporate espionage, but it has also made him an international fugitive and cost him everything he loves. Now Cobb is being offered a chance at redemption. One last job could give him his life back but only if he can accomplish the impossible—inception.
+    </p>
+    <button class="btn-watchlist" aria-label="Add Inception to watchlist">Add to Watchlist</button>
+
+    <div class="movie-info-grid" aria-label="Movie details">
+      <div class="info-block">
+        <h3>Language</h3>
+        <p>English</p>
+      </div>
+      <div class="info-block">
+        <h3>Budget</h3>
+        <p>$160M</p>
+      </div>
+      <div class="info-block">
+        <h3>Box Office</h3>
+        <p>$829.9M</p>
+      </div>
+      <div class="info-block">
+        <h3>MPAA Rating</h3>
+        <p>PG-13</p>
+      </div>
+    </div>
+
+    <section class="cast-list" aria-label="Cast">
+      <h2>Cast</h2>
+      <div class="cast-members">
+        <div class="cast-member">
+          <h4>Leonardo DiCaprio</h4>
+          <p>Dom Cobb</p>
+        </div>
+        <div class="cast-member">
+          <h4>Joseph Gordon-Levitt</h4>
+          <p>Arthur</p>
+        </div>
+        <div class="cast-member">
+          <h4>Ellen Page</h4>
+          <p>Ariadne</p>
+        </div>
+        <div class="cast-member">
+          <h4>Tom Hardy</h4>
+          <p>Eames</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="trailer-section" aria-label="Trailer">
+      <h2>Official Trailer</h2>
+      <div class="trailer-container">
+        <iframe 
+          src="https://www.youtube.com/embed/YoHD9XEInc0" 
+          title="Inception Official Trailer" 
+          allowfullscreen 
+          loading="lazy" 
+          aria-label="YouTube video player">
+        </iframe>
+      </div>
+    </section>
+
+    <section class="reviews-section" aria-label="User Reviews">
+      <h2>User Reviews</h2>
+      <article class="review">
+        <div class="reviewer">Jane D.</div>
+        <div class="rating">★★★★★</div>
+        <p>A mind-bending masterpiece with incredible storytelling and visuals. A must-watch!</p>
+      </article>
+      <article class="review">
+        <div class="reviewer">Mark S.</div>
+        <div class="rating">★★★★☆</div>
+        <p>Complex but rewarding. Nolan does it again with an unforgettable film experience.</p>
+      </article>
+    </section>
+
+  </div>
+</main>
+<footer>
+  <p>&copy; 2025 Movie Hub. All rights reserved.</p>
+</footer>
+</body>
+</html>

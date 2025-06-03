@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up | Zyler</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"/>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .signup-container {
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h2 {
+      margin-bottom: 25px;
+      text-align: center;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    input::placeholder {
+      color: #aaa;
+    }
+
+    input:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-top: -16px;
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #007bff;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    .form-group {
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="signup-container">
+    <h2>Create Account</h2>
+    <form id="signupForm" novalidate>
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="Your name" required />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" placeholder="maryum@email.com" required />
+        <div class="error" id="emailError">Please enter a valid email address.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number (Pakistan)</label>
+        <input type="tel" id="phone" placeholder="03XXXXXXXXX" required />
+        <div class="error" id="phoneError">Please enter a valid Pakistani phone number.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Strong password" required />
+        <div class="error" id="passwordStrengthError">
+          Password must be at least 8 characters long and include uppercase, lowercase, number, and special character.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" placeholder="Re-enter password" required />
+        <div class="error" id="passwordMatchError">Passwords do not match.</div>
+      </div>
+
+      <button type="submit">Sign Up</button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('signupForm');
+    const email = document.getElementById('email');
+    const phone = document.getElementById('phone');
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirmPassword');
+
+    const emailError = document.getElementById('emailError');
+    const phoneError = document.getElementById('phoneError');
+    const passwordStrengthError = document.getElementById('passwordStrengthError');
+    const passwordMatchError = document.getElementById('passwordMatchError');
+
+    email.addEventListener('input', () => {
+      const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+      emailError.style.display = emailPattern.test(email.value) ? 'none' : 'block';
+    });
+
+    phone.addEventListener('input', () => {
+      const phonePattern = /^03[0-9]{9}$/;
+      phoneError.style.display = phonePattern.test(phone.value) ? 'none' : 'block';
+    });
+
+    password.addEventListener('input', () => {
+      const strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+      passwordStrengthError.style.display = strongPassword.test(password.value) ? 'none' : 'block';
+    });
+
+    confirmPassword.addEventListener('input', () => {
+      passwordMatchError.style.display = password.value === confirmPassword.value ? 'none' : 'block';
+    });
+
+    form.addEventListener('submit', function (e) {
+      const isEmailValid = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value);
+      const isPhoneValid = /^03[0-9]{9}$/.test(phone.value);
+      const isPasswordStrong = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password.value);
+      const doPasswordsMatch = password.value === confirmPassword.value;
+
+      if (!isEmailValid || !isPhoneValid || !isPasswordStrong || !doPasswordsMatch) {
+        e.preventDefault();
+        if (!isEmailValid) emailError.style.display = 'block';
+        if (!isPhoneValid) phoneError.style.display = 'block';
+        if (!isPasswordStrong) passwordStrengthError.style.display = 'block';
+        if (!doPasswordsMatch) passwordMatchError.style.display = 'block';
+      }
+    });
+  </script>
+
+</body>
+</html>
